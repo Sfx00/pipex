@@ -10,6 +10,16 @@
 #include <fcntl.h>
 
 
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 1
+# endif
+
+# if BUFFER_SIZE < 0
+#  undef BUFFER_SIZE
+#  define BUFFER_SIZE 0
+# endif
+
 typedef struct card
 {
     int infile;
@@ -20,11 +30,10 @@ typedef struct card
 
 }rabat;
 
-
+char	*get_next_line(int fd);
 char	*read_file(int fd, char *buffer, char **remainder);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
-void    print_error(char *str, int flag);
 void    first_child(rabat *card, char **av, char **env);
 char	**ft_split(char const *s, char c);
 char	*ft_strchr(const char *s, int c);
@@ -34,5 +43,11 @@ void	*ft_calloc(size_t nmemb, size_t size);
 void	*ft_memset(void *s, int c, size_t n);
 int     ft_strncmp(const char *s1, const char *s2, size_t n);
 size_t	ft_strlen(const char *s);
+char	*ft_substr(char const *s, unsigned int start, size_t len);
+char	*ft_strdup(const char *s);
+int     check_file(char *file);
+void     open_file(char *file, int flag, rabat *card);
+void    print_error(char *file,char *str, int flag);
+void    write_error(char *file,char *str);
 
 #endif

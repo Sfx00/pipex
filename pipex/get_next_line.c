@@ -6,11 +6,11 @@
 /*   By: obajali <obajali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 00:11:09 by obajali           #+#    #+#             */
-/*   Updated: 2024/11/26 17:16:09 by obajali          ###   ########.fr       */
+/*   Updated: 2025/01/07 12:06:42 by obajali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "pipex.h"
 
 char	*cleaner(char **remainder, char *buffer)
 {

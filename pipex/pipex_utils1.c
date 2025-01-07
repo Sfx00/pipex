@@ -1,7 +1,15 @@
 #include "pipex.h"
 
-void print_error(char *str, int flag)
+void print_error(char *file,char *str, int flag)
 {
+    int i;
+
+    i = 0;
+    if(file)
+    {
+        write(2,file,ft_strlen(file));
+        write(1, ": ", 2);
+    }
     while(*str)
     {
         write(2,str,1);
