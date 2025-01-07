@@ -6,7 +6,7 @@
 #    By: obajali <obajali@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/05 21:04:15 by obajali           #+#    #+#              #
-#    Updated: 2025/01/07 12:23:28 by obajali          ###   ########.fr        #
+#    Updated: 2025/01/07 13:38:49 by obajali          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,26 +24,29 @@ BNS = pipex_bonus.c ft_splite.c get_next_line.c write_error.c pipex_utils1.c pip
 
 OBJS = $(SRC:.c=.o)
 OBJB = $(BNS:.c=.o)
-AOBJ = *.o
+BONUS_RE = .bonus
 
 all : ${NAME}
 
 ${NAME} : ${OBJS}
-	@${CC} ${OBJS} -o ${NAME}
+	${CC} ${OBJS} -o ${NAME}
 	
 %.o : %.c 
-	@${CC} ${CFLAG} -c $< -o $@
+	${CC} ${CFLAG} -c $< -o $@
 
 clean :
-	@${RM} ${AOBJ}
+	${RM} ${OBJB} ${OBJS}
+	@$(RM) $(BONUS_RE)
 	
 fclean : clean
-	@${RM} ${NAME}
+	${RM} ${NAME}
 	
-bonus : $(NAME) $(OBJB)
-	@${CC} ${OBJB} -o ${NAME}
+bonus : $(BONUS_RE)
 
+$(BONUS_RE) : $(NAME) $(OBJB)
+	${CC} ${OBJB} -o ${NAME}
+	@touch $(BONUS_RE)
 
 re : fclean all
-
+  
 .PHONY : re clean fclean
