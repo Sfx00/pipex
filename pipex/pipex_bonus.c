@@ -6,28 +6,27 @@
 /*   By: obajali <obajali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 15:25:08 by obajali           #+#    #+#             */
-/*   Updated: 2025/01/07 15:26:03 by obajali          ###   ########.fr       */
+/*   Updated: 2025/01/11 11:24:42 by obajali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	open_files(char *file, int flag)
+int	open_files(char *file,t_rabat *card, int flag)
 {
-	int (fd), (dummy_pipe[2]);
+	int	fd;
+
 	if (flag == 0)
 	{
 		if (access(file, F_OK) == -1)
 		{
-			(pipe(dummy_pipe), close(dummy_pipe[1]));
-			write_error(file, "Permission denied");
-			return (dummy_pipe[0]);
+			write_error(file, "No such file or directory\n");
+			return(create_pipe(card));
 		}
 		else if (access(file, R_OK) == -1)
 		{
-			(pipe(dummy_pipe), close(dummy_pipe[1]));
 			write(2, "Permission denied\n", 18);
-			return (dummy_pipe[0]);
+			return(create_pipe(card));
 		}
 		fd = open(file, O_RDONLY);
 	}
@@ -60,27 +59,26 @@ void	execute(char *argv, char **env)
 	print_error(NULL, "Command not found", 127);
 }
 
-void	pipex(char *cmd, char **env)
+void	pipex(char *cmd,t_rabat *card, char **env)
 {
 	int	status;
 	int	pid;
-	int	pipe_fd[2];
-
-	if (pipe(pipe_fd) == -1)
+	
+	if (pipe(card->pipe) == -1)
 		print_error(NULL, "Failed to create pipe", 1);
 	pid = fork();
 	if (pid < 0)
 		print_error(NULL, "faild to fork", 1);
 	if (pid)
 	{
-		close(pipe_fd[1]);
-		dup2(pipe_fd[0], 0);
+		close(card->pipe[1]);
+		dup2(card->pipe[0], 0);
 		waitpid(pid, &status, 0);
 	}
 	else
 	{
-		close(pipe_fd[0]);
-		dup2(pipe_fd[1], 1);
+		close(card->pipe[0]);
+		dup2(card->pipe[1], 1);
 		execute(cmd, env);
 	}
 }
@@ -114,29 +112,29 @@ void	handle_here_doc(char *limiter)
 
 int	main(int ac, char **av, char **env)
 {
-	int	fd[2];
-	int	i;
+	t_rabat	card;
+	int		i;
 
 	if (!env || ac < 5)
 		print_error(NULL, "Error: Invalid arguments", 1);
-	if (ac > 5 && (ft_strncmp(av[1], "here_doc", 8) == 0))
+	if (ft_strncmp(av[1], "here_doc", 8) == 0)
 	{
-		if (ac < 6)
+		if (ac != 6)
 			print_error(NULL, "Usage: ./pipex here_doc LIMITER cmd1 cmd2 file",
 				1);
 		handle_here_doc(av[2]);
-		fd[1] = open_files(av[ac - 1], 1);
+		card.outfile = open_files(av[ac - 1], &card, 1);
 		i = 3;
 	}
 	else
 	{
-		fd[0] = open_files(av[1], 0);
-		fd[1] = open_files(av[ac - 1], 1);
-		dup2(fd[0], 0);
+		card.infile = open_files(av[1],&card, 0);
+		card.outfile = open_files(av[ac - 1], &card, 1);
+		dup2(card.infile, 0);
 		i = 2;
 	}
-	dup2(fd[1], 1);
+	dup2(card.outfile, 1);
 	while (i < ac - 2)
-		pipex(av[i++], env);
+		pipex(av[i++],&card,env);
 	execute(av[i], env);
 }

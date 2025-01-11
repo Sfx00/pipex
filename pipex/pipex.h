@@ -6,7 +6,7 @@
 /*   By: obajali <obajali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 15:26:37 by obajali           #+#    #+#             */
-/*   Updated: 2025/01/07 15:28:35 by obajali          ###   ########.fr       */
+/*   Updated: 2025/01/11 11:02:07 by obajali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,5 +58,6 @@ int			check_file(char *file);
 void		open_file(char *file, int flag, t_rabat *card);
 void		print_error(char *file, char *str, int flag);
 void		write_error(char *file, char *str);
+int	create_pipe(t_rabat *card);
 
 #endif

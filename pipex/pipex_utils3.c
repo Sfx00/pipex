@@ -6,7 +6,7 @@
 /*   By: obajali <obajali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 15:29:04 by obajali           #+#    #+#             */
-/*   Updated: 2025/01/07 15:37:42 by obajali          ###   ########.fr       */
+/*   Updated: 2025/01/11 09:50:15 by obajali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,21 +87,17 @@ int	check_file(char *file)
 
 void	open_file(char *file, int flag, t_rabat *card)
 {
-	int	dummy_pipe[2];
-
 	if (flag == 0)
 	{
 		if (access(file, F_OK) == -1)
 		{
-			(pipe(dummy_pipe), close(dummy_pipe[1]));
 			write(2, "No such file or directory\n", 26);
-			card->infile = dummy_pipe[0];
+			exit(1);
 		}
 		else if (access(file, R_OK) == -1)
 		{
-			(pipe(dummy_pipe), close(dummy_pipe[1]));
 			write(2, "Permission denied\n", 18);
-			card->infile = dummy_pipe[0];
+			exit(1);
 		}
 		else
 			card->infile = open(file, O_RDONLY);

@@ -6,7 +6,7 @@
 #    By: obajali <obajali@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/05 21:04:15 by obajali           #+#    #+#              #
-#    Updated: 2025/01/07 13:38:49 by obajali          ###   ########.fr        #
+#    Updated: 2025/01/11 11:02:42 by obajali          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ RM = rm -fr
 
 
 SRC = pipex.c ft_splite.c pipex_utils1.c pipex_utils2.c pipex_utils3.c 
-BNS = pipex_bonus.c ft_splite.c get_next_line.c write_error.c pipex_utils1.c pipex_utils2.c pipex_utils3.c
+BNS = pipex_bonus.c ft_splite.c get_next_line.c error.c pipex_utils1.c pipex_utils2.c pipex_utils3.c
 
 OBJS = $(SRC:.c=.o)
 OBJB = $(BNS:.c=.o)

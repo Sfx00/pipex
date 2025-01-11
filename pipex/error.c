@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   write_error.c                                      :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: obajali <obajali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 15:38:18 by obajali           #+#    #+#             */
-/*   Updated: 2025/01/07 15:39:36 by obajali          ###   ########.fr       */
+/*   Updated: 2025/01/11 10:55:51 by obajali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,13 @@ void	write_error(char *file, char *str)
 		str++;
 	}
 	write(2, "\n", 1);
+}
+
+
+int	create_pipe(t_rabat *card)
+{
+	if (pipe(card->pipe) == -1)
+		print_error(NULL, "Failed to create pipe", 1);
+	close (card->pipe[1]);
+	return(card->pipe[0]);
 }
