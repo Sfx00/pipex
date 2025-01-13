@@ -6,7 +6,7 @@
 /*   By: obajali <obajali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 15:21:02 by obajali           #+#    #+#             */
-/*   Updated: 2025/01/11 09:46:32 by obajali          ###   ########.fr       */
+/*   Updated: 2025/01/13 15:45:57 by obajali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,8 @@ void	pipex(t_rabat *card, char **av, char **env)
 	close(card->pipe[0]);
 	close(card->pipe[1]);
 	waitpid(card->pid1, &status1, 0);
-	if (WEXITSTATUS(status1) > 0)
-		exit(WEXITSTATUS(status1));
 	waitpid(card->pid2, &status2, 0);
-	if (WEXITSTATUS(status2) > 0)
-		exit(WEXITSTATUS(status2));
+	exit(WEXITSTATUS(status2));
 }
 
 int	main(int ac, char **av, char **env)

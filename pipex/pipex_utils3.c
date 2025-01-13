@@ -6,7 +6,7 @@
 /*   By: obajali <obajali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 15:29:04 by obajali           #+#    #+#             */
-/*   Updated: 2025/01/11 09:50:15 by obajali          ###   ########.fr       */
+/*   Updated: 2025/01/11 14:36:23 by obajali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,7 @@ int	check_file(char *file)
 	int	fd;
 
 	if (access(file, F_OK) != -1 && access(file, W_OK) == -1)
-	{
 		return (-1);
-	}
 	else
 		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	return (fd);

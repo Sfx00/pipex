@@ -6,7 +6,7 @@
 /*   By: obajali <obajali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 15:25:08 by obajali           #+#    #+#             */
-/*   Updated: 2025/01/11 11:24:42 by obajali          ###   ########.fr       */
+/*   Updated: 2025/01/11 16:04:17 by obajali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int	open_files(char *file,t_rabat *card, int flag)
 			return(create_pipe(card));
 		}
 		fd = open(file, O_RDONLY);
+		
 	}
 	else
 	{
@@ -123,7 +124,7 @@ int	main(int ac, char **av, char **env)
 			print_error(NULL, "Usage: ./pipex here_doc LIMITER cmd1 cmd2 file",
 				1);
 		handle_here_doc(av[2]);
-		card.outfile = open_files(av[ac - 1], &card, 1);
+		card.outfile = open_files_doc(av[ac - 1]);
 		i = 3;
 	}
 	else

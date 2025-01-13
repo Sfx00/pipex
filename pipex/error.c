@@ -6,7 +6,7 @@
 /*   By: obajali <obajali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 15:38:18 by obajali           #+#    #+#             */
-/*   Updated: 2025/01/11 10:55:51 by obajali          ###   ########.fr       */
+/*   Updated: 2025/01/11 14:44:29 by obajali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,20 @@ int	create_pipe(t_rabat *card)
 		print_error(NULL, "Failed to create pipe", 1);
 	close (card->pipe[1]);
 	return(card->pipe[0]);
+}
+
+
+int open_files_doc(char *file)
+{
+	int fd;
+	if (access(file, F_OK) != -1 && access(file, W_OK) == -1)
+	{
+		write_error(file,"Permission denied");
+		exit(1);
+	}
+	if(access(file, F_OK) != -1)
+		fd = open(file, O_WRONLY | O_APPEND);
+	else
+		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	return (fd);
 }
