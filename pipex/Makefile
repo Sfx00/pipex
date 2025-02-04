@@ -6,7 +6,7 @@
 #    By: obajali <obajali@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/05 21:04:15 by obajali           #+#    #+#              #
-#    Updated: 2025/01/13 15:40:23 by obajali          ###   ########.fr        #
+#    Updated: 2025/01/18 19:08:22 by obajali          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,11 +41,11 @@ clean :
 fclean : clean
 	${RM} ${NAME}
 	
-#bonus : $(BONUS_RE)
+bonus : $(BONUS_RE)
 
-#$(BONUS_RE) : $(NAME) $(OBJB)
-#${CC} ${OBJB} -o ${NAME}
-#@touch $(BONUS_RE)
+$(BONUS_RE) : $(NAME) $(OBJB)
+	${CC} ${OBJB} -o ${NAME}
+	@touch $(BONUS_RE)
 
 re : fclean all
   

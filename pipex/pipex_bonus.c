@@ -6,7 +6,7 @@
 /*   By: obajali <obajali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 15:25:08 by obajali           #+#    #+#             */
-/*   Updated: 2025/01/11 16:04:17 by obajali          ###   ########.fr       */
+/*   Updated: 2025/01/24 21:56:25 by obajali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ void	execute(char *argv, char **env)
 
 void	pipex(char *cmd,t_rabat *card, char **env)
 {
-	int	status;
 	int	pid;
 	
 	if (pipe(card->pipe) == -1)
@@ -74,7 +73,6 @@ void	pipex(char *cmd,t_rabat *card, char **env)
 	{
 		close(card->pipe[1]);
 		dup2(card->pipe[0], 0);
-		waitpid(pid, &status, 0);
 	}
 	else
 	{
@@ -111,6 +109,16 @@ void	handle_here_doc(char *limiter)
 	close(pipe_fd[0]);
 }
 
+void	wait_child(void)
+{
+	int state;
+	
+	while (wait(&state) != -1);
+	exit(state);
+}
+
+
+
 int	main(int ac, char **av, char **env)
 {
 	t_rabat	card;
@@ -137,5 +145,5 @@ int	main(int ac, char **av, char **env)
 	dup2(card.outfile, 1);
 	while (i < ac - 2)
 		pipex(av[i++],&card,env);
-	execute(av[i], env);
+	wait_child();
 }

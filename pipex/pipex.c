@@ -6,7 +6,7 @@
 /*   By: obajali <obajali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 15:21:02 by obajali           #+#    #+#             */
-/*   Updated: 2025/01/13 15:45:57 by obajali          ###   ########.fr       */
+/*   Updated: 2025/01/26 22:28:36 by obajali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	execute_command(int input_fd, int output_fd, char *av, char **env)
 {
 	char	**cmd;
-	char	*path;
+	char	*path; 
 
 	if (dup2(input_fd, 0) == -1)
 		print_error(NULL, "Failed to dup input_fd", 1);
@@ -23,17 +23,18 @@ void	execute_command(int input_fd, int output_fd, char *av, char **env)
 		print_error(NULL, "Failed to dup output_fd", 1);
 	cmd = ft_split(av, ' ');
 	if (!cmd)
-		print_error(NULL, "Failed to split command", 1);
+		print_error(NULL, "Command '' not found", 127);
+	usleep(50);
 	path = find_path(cmd[0], env);
 	if (!path)
 	{
 		free_strings(cmd);
-		print_error(NULL, "Command not found", 127);
+		print_error(cmd[0], "Command not found", 127);
 	}
 	execve(path, cmd, env);
 	free_strings(cmd);
 	free(path);
-	print_error(NULL, "Command not found", 127);
+	print_error(cmd[0], "Command not found", 127);
 }
 
 void	second_child(t_rabat *card, char **av, char **env)
@@ -56,15 +57,15 @@ void	pipex(t_rabat *card, char **av, char **env)
 	int	status2;
 
 	if (pipe(card->pipe) == -1)
-		print_error(NULL, "Failed to create pipe", 1);
+		print_error(NULL, "Failed to create pipe", 2);
 	card->pid1 = fork();
 	if (card->pid1 < 0)
-		print_error(NULL, "faild to fork", 1);
+		print_error(NULL, "faild to fork", 254);
 	if (card->pid1 == 0)
 		first_child(card, av, env);
 	card->pid2 = fork();
 	if (card->pid2 < 0)
-		print_error(NULL, "faild to create a child", 1);
+		print_error(NULL, "faild to create a child", 254);
 	if (card->pid2 == 0)
 		second_child(card, av, env);
 	close(card->pipe[0]);

@@ -6,7 +6,7 @@
 /*   By: obajali <obajali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 15:38:18 by obajali           #+#    #+#             */
-/*   Updated: 2025/01/11 14:44:29 by obajali          ###   ########.fr       */
+/*   Updated: 2025/01/18 19:08:55 by obajali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,7 @@
 
 void	write_error(char *file, char *str)
 {
-	int	i;
-
-	i = 0;
+	
 	if (file)
 	{
 		write(2, file, ft_strlen(file));
