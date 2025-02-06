@@ -52,15 +52,15 @@ void	pipex(t_rabat *card, char **av, char **env)
 	int	status2;
 
 	if (pipe(card->pipe) == -1)
-		print_error(NULL, "Failed to create pipe",NULL, 2);
+		print_error(NULL, "pipe failed: too many open files",NULL, 1);
 	card->pid1 = fork();
 	if (card->pid1 < 0)
-		print_error(NULL, "faild to fork",NULL, 254);
+		print_error(NULL, "fork failed: resource temporarily unavailable",NULL, 1);
 	if (card->pid1 == 0)
 		first_child(card, av, env);
 	card->pid2 = fork();
 	if (card->pid2 < 0)
-		print_error(NULL, "faild to create a child",NULL, 254);
+		print_error(NULL, "fork failed: resource temporarily unavailable",NULL, 1);
 	if (card->pid2 == 0)
 		second_child(card, av, env);
 	close(card->pipe[0]);
