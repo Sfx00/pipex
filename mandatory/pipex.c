@@ -23,7 +23,7 @@ void	execute_command(int input_fd, int output_fd, char *av, char **env)
 		print_error(NULL, "Failed to dup output_fd", NULL, 1);
 	cmd = ft_split(av, ' ');
 	if (!cmd || !*cmd)
-		print_error(NULL, "Command '' not found",cmd, 127);
+		print_error(" ", "Command '' not found",cmd, 127);
 	path = find_path(cmd, env);
 	if (!path)
 		print_error(cmd[0], "Command not found",cmd, 127);

@@ -80,7 +80,7 @@ int	check_file(char *file)
 	if (access(file, F_OK) != -1 && access(file, W_OK) == -1)
 		return (-1);
 	else
-		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 777);
 	return (fd);
 }
 
