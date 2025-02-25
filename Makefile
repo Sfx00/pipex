@@ -6,7 +6,7 @@
 #    By: obajali <obajali@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/05 21:04:15 by obajali           #+#    #+#              #
-#    Updated: 2025/01/18 19:08:22 by obajali          ###   ########.fr        #
+#    Updated: 2025/02/25 17:23:06 by obajali          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,12 +15,12 @@
 NAME = pipex
 AR = ar -rcs
 CC = cc
-CFLAG = -Wall -Wextra -Werror
+CFLAG = -Wall -Wextra -Werror -g3
 RM = rm -fr
 
 
-SRC = pipex.c ft_splite.c pipex_utils1.c pipex_utils2.c pipex_utils3.c 
-BNS = pipex_bonus.c ft_splite.c get_next_line.c error.c pipex_utils1.c pipex_utils2.c pipex_utils3.c
+SRC = mandatory/pipex.c mandatory/ft_splite.c mandatory/pipex_utils1.c mandatory/pipex_utils2.c mandatory/pipex_utils3.c 
+BNS = bonus/pipex_bonus.c bonus/ft_splite.c bonus/get_next_line.c bonus/error.c bonus/pipex_utils1_bonus.c bonus/pipex_utils2_bonus.c bonus/pipex_utils3_bonus.c
 
 OBJS = $(SRC:.c=.o)
 OBJB = $(BNS:.c=.o)

@@ -6,7 +6,7 @@
 /*   By: obajali <obajali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 15:25:08 by obajali           #+#    #+#             */
-/*   Updated: 2025/02/06 00:34:41 by obajali          ###   ########.fr       */
+/*   Updated: 2025/02/25 19:23:28 by obajali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ void	pipex(char *cmd,t_rabat *card, char **env)
 	{
 		close(card->pipe[1]);
 		dup2(card->pipe[0], 0);
+		close(card->pipe[0]);
 	}
 	else
 	{
@@ -104,15 +105,26 @@ void	handle_here_doc(char *limiter)
 	dup2(pipe_fd[0], 0);
 	close(pipe_fd[0]);
 }
-
-void	wait_child(void)
+void	last_step(t_rabat *card,char *cmd,char **env)
 {
 	int state;
+	int exit_status = 0;
+	int	pid;
 	
-	while (wait(&state) != -1);
-	exit(state);
+	pid = fork();
+	if(pid == 0)
+	{
+		dup2(card->outfile,1);
+		execute(cmd, env);
+	}
+	close(0);
+	while (wait(&state) != -1)
+	{
+		if (WIFEXITED(state))
+			exit_status = WEXITSTATUS(state);
+	}
+	exit(exit_status);
 }
-
 
 
 int	main(int ac, char **av, char **env)
@@ -137,8 +149,8 @@ int	main(int ac, char **av, char **env)
 		dup2(card.infile, 0);
 		i = 2;
 	}
-	dup2(card.outfile, 1);
 	while (i < ac - 2)
 		pipex(av[i++],&card,env);
-	wait_child();
+	last_step(&card,av[i],env);
 }
+
