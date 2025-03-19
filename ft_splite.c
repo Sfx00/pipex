@@ -6,7 +6,7 @@
 /*   By: obajali <obajali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 16:11:23 by obajali           #+#    #+#             */
-/*   Updated: 2025/02/05 23:59:57 by obajali          ###   ########.fr       */
+/*   Updated: 2025/03/19 08:30:22 by obajali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,7 @@ char	**ft_split(char const *s, char c)
 
 	arr[0] = 0;
 	arr[1] = 0;
-	if (!s || !(*s))
-		return (NULL);
+
 	p = (char **)ft_calloc((counter(s, c) + 1), sizeof(char *));
 	if (p == NULL)
 		return (NULL);
@@ -110,5 +109,7 @@ char	**ft_split(char const *s, char c)
 		while (s[arr[0]] != c && s[arr[0]] != '\0')
 			arr[0]++;
 	}
+	p[arr[1]] = NULL;
 	return (p);
 }
+  

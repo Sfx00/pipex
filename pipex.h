@@ -6,7 +6,7 @@
 /*   By: obajali <obajali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 15:26:37 by obajali           #+#    #+#             */
-/*   Updated: 2025/02/06 00:27:21 by obajali          ###   ########.fr       */
+/*   Updated: 2025/03/19 09:34:58 by obajali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,9 @@
 # define PIPEX_H
 
 # include <fcntl.h>
-# include <signal.h>
 # include <stdlib.h>
+# include <stdio.h>
 # include <sys/wait.h>
-# include <time.h>
 # include <unistd.h>
 
 # ifndef BUFFER_SIZE
@@ -39,26 +38,23 @@ typedef struct card
 
 }			t_rabat;
 
-char		*get_next_line(int fd);
-char		*read_file(int fd, char *buffer, char **remainder);
+/*-------------[ String Manipulation Functions ]------------------*/
 char		*ft_strjoin(char const *s1, char const *s2);
-char		*ft_substr(char const *s, unsigned int start, size_t len);
-void		first_child(t_rabat *card, char **av, char **env);
 char		**ft_split(char const *s, char c);
 char		*ft_strchr(const char *s, int c);
-char		*find_path(char **cmd, char **env);
-void		free_strings(char **str);
-void		*ft_calloc(size_t nmemb, size_t size);
-void		*ft_memset(void *s, int c, size_t n);
-int			ft_strncmp(const char *s1, const char *s2, size_t n);
-size_t		ft_strlen(const char *s);
 char		*ft_substr(char const *s, unsigned int start, size_t len);
 char		*ft_strdup(const char *s);
-int			check_file(char *file);
+size_t		ft_strlen(const char *s);
+int			ft_strncmp(const char *s1, const char *s2, size_t n);
+
+/*-------------[ Memory Management Functions ]------------------*/
+void		*ft_calloc(size_t nmemb, size_t size);
+void		*ft_memset(void *s, int c, size_t n);
+
+/*-------------[ Utility Functions ]------------------*/
+char		*find_path(char **cmd, char **env);
+void		free_strings(char **str);
 void		open_file(char *file, int flag, t_rabat *card);
-void		print_error(char *file, char *str,char **cmd, int flag);
-void		write_error(char *file, char *str);
-int			create_pipe(t_rabat *card);
-int 		open_files_doc(char *file);
+void		print_error(char *str, char **alloc, int flag);
 
 #endif

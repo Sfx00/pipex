@@ -1,74 +1,56 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex_utils1.c                                     :+:      :+:    :+:   */
+/*   pipex_path.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: obajali <obajali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/07 15:32:23 by obajali           #+#    #+#             */
-/*   Updated: 2025/02/06 00:29:34 by obajali          ###   ########.fr       */
+/*   Created: 2025/03/19 09:43:25 by obajali           #+#    #+#             */
+/*   Updated: 2025/03/19 09:43:56 by obajali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	print_error(char *file, char *str, char **alloc,int flag)
+char *join_path(char *full_path, char *cmd)
 {
-	if (file)
-	{
-		write(2, file, ft_strlen(file));
-		write(1, ": ", 2);
-	}
-	while (*str)
-	{
-		write(2, str, 1);
-		str++;
-	}
-	write(2, "\n", 1);
-	if (alloc)
-		free_strings(alloc);
-	if(flag)
-		exit(flag);
+	char *tmp;
+	char *path;
+	
+	tmp = ft_strjoin(full_path, "/");
+	if (!tmp)
+		return (NULL);
+	path = ft_strjoin(tmp, cmd);
+	free(tmp);
+	return(path);
 }
 
-void	free_strings(char **str)
+char	*check_path(char **full_path, char **cmd)
 {
-	int	i;
-
-	if (!str)
-		return ;
-	i = 0;
-	while (str[i])
-	{
-		free(str[i]);
-		str[i] = NULL;
-		i++;
-	}
-	free(str);
-}
-
-char	*check_path(char **full_path, char *cmd)
-{
-	int		i;
 	char	*path;
-	char	*tmp;
+	char	*path_0;
+	int		i;
 
+	path_0 = NULL;
 	i = 0;
 	while (full_path[i])
 	{
-		tmp = ft_strjoin(full_path[i], "/");
-		if (!tmp)
-			return (NULL);
-		path = ft_strjoin(tmp, cmd);
-		free(tmp);
+		path = join_path(full_path[i++], *cmd);
 		if (!path)
-			return (NULL);
+		{
+			free_strings(full_path);
+			print_error(NULL, cmd, 1);
+		}
 		if (access(path, X_OK) == 0)
-			return (path);
+			return (free(path_0), path);
+		else if (access(path, F_OK) == 0 && path_0 == NULL)
+		{
+			path_0 = path;
+			path = NULL;
+		}
 		free(path);
-		i++;
 	}
-	return (NULL);
+	return (path_0);
 }
 
 char	*get_path(char **env, char **cmd)
@@ -78,19 +60,18 @@ char	*get_path(char **env, char **cmd)
 	char	*path;
 
 	i = 0;
+	
 	while (env[i])
 	{
 		if (ft_strncmp(env[i], "PATH=", 5) == 0)
 		{
-			if(env[i][5] == '\0')
-				print_error(NULL, "PATH is empty",cmd, 127);
 			full_path = ft_split(env[i] + 5, ':');
 			if (!full_path)
-				return (NULL);
-			path = check_path(full_path, cmd[0]);
+				print_error(NULL, cmd, 1);
+			path = check_path(full_path, cmd);
 			free_strings(full_path);
 			if (!path)
-				return (NULL);
+				return (NULL);// cmdnfound
 			else
 				return (path);
 		}
@@ -104,13 +85,14 @@ char	*find_path(char **cmd, char **env)
 	char	*path;
 
 	if (ft_strchr(cmd[0], '/'))
-	{
-		if (access(cmd[0], X_OK) == 0)
-			return (cmd[0]);
-		return (NULL);
-	}
+		return (cmd[0]);
 	path = get_path(env, cmd);
 	if (!path)
-		return (NULL);
+	{
+		write(2,cmd[0], ft_strlen(cmd[0]));
+		write(2, ": command not found\n", 20);
+		free_strings(cmd);
+		exit(127);
+	}
 	return (path);
 }

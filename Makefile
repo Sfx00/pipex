@@ -1,52 +1,26 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: obajali <obajali@student.42.fr>            +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/01/05 21:04:15 by obajali           #+#    #+#              #
-#    Updated: 2025/02/25 17:23:06 by obajali          ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+NAME= pipex
+CC= cc
+CFLAG= -Wall -Wextra -Werror
+RM= rm -fr
 
+SRC= pipex.c pipex_memory.c pipex_path.c pipex_string.c pipex_utils.c ft_splite.c
 
+OBJS= $(SRC:%.c=%.o)
 
-NAME = pipex
-AR = ar -rcs
-CC = cc
-CFLAG = -Wall -Wextra -Werror -g3
-RM = rm -fr
+all: ${NAME}
 
-
-SRC = mandatory/pipex.c mandatory/ft_splite.c mandatory/pipex_utils1.c mandatory/pipex_utils2.c mandatory/pipex_utils3.c 
-BNS = bonus/pipex_bonus.c bonus/ft_splite.c bonus/get_next_line.c bonus/error.c bonus/pipex_utils1_bonus.c bonus/pipex_utils2_bonus.c bonus/pipex_utils3_bonus.c
-
-OBJS = $(SRC:.c=.o)
-OBJB = $(BNS:.c=.o)
-BONUS_RE = .bonus
-
-all : ${NAME}
-
-${NAME} : ${OBJS}
+${NAME}: ${OBJS}
 	${CC} ${OBJS} -o ${NAME}
 	
-%.o : %.c 
+%.o: %.c 
 	${CC} ${CFLAG} -c $< -o $@
 
-clean :
-	${RM} ${OBJB} ${OBJS}
-	@$(RM) $(BONUS_RE)
+clean:
+	${RM} ${OBJS}
 	
-fclean : clean
+fclean: clean
 	${RM} ${NAME}
-	
-bonus : $(BONUS_RE)
 
-$(BONUS_RE) : $(NAME) $(OBJB)
-	${CC} ${OBJB} -o ${NAME}
-	@touch $(BONUS_RE)
+re: fclean all
 
-re : fclean all
-  
-.PHONY : re clean fclean
+.PHONY: all clean fclean re
